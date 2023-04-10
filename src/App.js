@@ -1,61 +1,51 @@
-import './App.css';
-import React, {useEffect, useState} from 'react';
-import './index.css';
-import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import React from "react";
+import { Router, Route, Switch } from "react-router-dom";
+import { Container } from "reactstrap";
 
-delete L.Icon.Default.prototype._getIconUrl;
+import Loading from "./components/Loading";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import Home from "./views/Home";
+import Profile from "./views/Profile";
+import ExternalApi from "./views/ExternalApi";
+import { useAuth0 } from "@auth0/auth0-react";
+import history from "./utils/history";
 
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
-});
+// styles
+import "./App.css";
 
-export default function App() {
+// fontawesome
+import initFontAwesome from "./utils/initFontAwesome";
+import GeoMapTool from "./views/GeoMapTool";
+initFontAwesome();
 
-  const position = [51.505, -0.09]
-  const [coordinates, setCoordinates] = useState(null)
+const App = () => {
+  const { isLoading, error } = useAuth0();
 
-    useEffect(() => {
-      async function fetchData() {
-          const response = await fetch('http://127.0.0.1:9906/content/fetch-all')
-          if (response.ok) {
-              const data = await response.json();
-              let positions = []
-              data.Records.forEach(record => {
-                  if (record.ContentLatitude && record.ContentLongitude) {
-                      record.Position = [record.ContentLatitude, record.ContentLongitude]
-                      positions.push(record)
-                  }
-              })
-              setCoordinates(positions);
-          }
-      }
-      fetchData();
+  if (error) {
+    return <div>Oops... {error.message}</div>;
+  }
 
-    }, []);
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
-          <MapContainer
-              center={position}
-              zoom={1}
-              scrollWheelZoom={true}
-              style={{ height: "100vh" }}
-          >
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-              {coordinates &&
-                coordinates.map((record) => (
-                <Marker position={record.Position}>
-                  <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
-                  </Popup>
-                </Marker>
-                ))}
-          </MapContainer>
-  )
-}
+    <Router history={history}>
+      <div id="app" className="d-flex flex-column h-100">
+        <NavBar />
+        <Container className="flex-grow-1 mt-5">
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/external-api" component={ExternalApi} />
+            <Route path="/geo-map-tool" component={GeoMapTool} />
+          </Switch>
+        </Container>
+        <Footer />
+      </div>
+    </Router>
+  );
+};
+
+export default App;
