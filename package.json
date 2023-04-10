@@ -1,7 +1,7 @@
 {
   "name": "lagoon",
   "version": "0.1.0",
-  "homepage": "https://yooper.github.io/lagoon",
+  "homepage": "https://lagoon.local-internet-archive.com",
   "private": false,
   "scripts": {
     "start": "npm-run-all --parallel spa api-server",
