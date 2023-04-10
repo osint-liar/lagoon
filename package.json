@@ -15,7 +15,8 @@
     "api-server:dev": "nodemon api-server.js",
     "dev": "npm-run-all --parallel spa api-server:dev",
     "prod": "npm-run-all --parallel server api-server",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.0.0",
