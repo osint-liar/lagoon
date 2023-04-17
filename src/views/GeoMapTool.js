@@ -21,7 +21,7 @@ export const GeoMapToolComponent = () =>
   const { user } = useAuth0();
   const position = [51.505, -0.09]
   const [coordinates, setCoordinates] = useState(null)
-  const { apiOrigin = "http://127.0.0.1:9906", audience } = getConfig();
+  const { apiOrigin = "http://127.0.0.1:9906/v1", audience } = getConfig();
 
   const [state, setState] = useState({
     showResult: false,
