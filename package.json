@@ -40,6 +40,7 @@
     "highlight.js": "^10.0",
     "leaflet": "^1.9.3",
     "morgan": "^1.9",
+    "mui-datatables": "^4.3.0",
     "npm-run-all": "^4.1",
     "postcss": "^8.4",
     "react": "^17",

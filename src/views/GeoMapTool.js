@@ -38,7 +38,6 @@ export const GeoMapToolComponent = () =>
   const callApi = async () => {
     try {
       const token = await getAccessTokenSilently();
-      console.log(token)
       const response = await fetch(`${apiOrigin}/content/fetch-all`, {
         headers: {
           Authorization: `Bearer ${token}`,

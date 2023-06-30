@@ -77,6 +77,16 @@ const NavBar = () => {
                         Geo Mapping Tools
                       </NavLink>
                     </NavItem>
+                    <NavItem>
+                      <NavLink
+                        tag={RouterNavLink}
+                        to="/sql-editor-tool"
+                        exact
+                        activeClassName="router-link-exact-active"
+                      >
+                        Sql Query Tool
+                      </NavLink>
+                    </NavItem>
                   </Fragment>
               )}
             </Nav>

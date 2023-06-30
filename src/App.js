@@ -17,6 +17,7 @@ import "./App.css";
 // fontawesome
 import initFontAwesome from "./utils/initFontAwesome";
 import GeoMapTool from "./views/GeoMapTool";
+import SqlEditorTool from "./views/SqlEditorTool";
 initFontAwesome();
 
 const App = () => {
@@ -40,6 +41,8 @@ const App = () => {
             <Route path="/profile" component={Profile} />
             <Route path="/external-api" component={ExternalApi} />
             <Route path="/geo-map-tool" component={GeoMapTool} />
+            <Route path="/sql-editor-tool" component={SqlEditorTool} />
+
           </Switch>
         </Container>
         <Footer />
