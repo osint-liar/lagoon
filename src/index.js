@@ -8,6 +8,7 @@ import history from "./utils/history";
 import { getConfig } from "./config";
 
 import 'leaflet/dist/leaflet.css';
+import {Typography} from "@mui/material";
 
 
 const onRedirectCallback = (appState) => {
@@ -32,7 +33,11 @@ const providerConfig = {
 
 ReactDOM.render(
   <Auth0Provider {...providerConfig}>
-    <App />
+    <div style={{textAlign: "center"}}>
+      <Typography variant="h1" component="h2">
+        Coming Soon
+      </Typography>
+    </div>
   </Auth0Provider>,
   document.getElementById("root")
 );
