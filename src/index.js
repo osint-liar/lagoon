@@ -33,11 +33,7 @@ const providerConfig = {
 
 ReactDOM.render(
   <Auth0Provider {...providerConfig}>
-    <div style={{textAlign: "center"}}>
-      <Typography variant="h1" component="h2">
-        Coming Soon
-      </Typography>
-    </div>
+    <App />
   </Auth0Provider>,
   document.getElementById("root")
 );
