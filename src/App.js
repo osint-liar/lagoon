@@ -1,53 +1,56 @@
-import React from "react";
-import { Router, Route, Switch } from "react-router-dom";
-import { Container } from "reactstrap";
+import React, {useState} from "react";
+import {BrowserRouter as Router, Routes, Route, BrowserRouter} from "react-router-dom";
 
-import Loading from "./components/Loading";
-import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
-import Home from "./views/Home";
-import Profile from "./views/Profile";
-import ExternalApi from "./views/ExternalApi";
-import { useAuth0 } from "@auth0/auth0-react";
-import history from "./utils/history";
+import Home from "./components/views/Home";
+import About from "./components/views/About";
+import Navigation from "./components/navigations/Navigation";
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './utils/theme'
+import MainLayout from './components/layouts/MainLayout'; // Import your two-column layout component
 
 // styles
 import "./App.css";
 
 // fontawesome
 import initFontAwesome from "./utils/initFontAwesome";
-import GeoMapTool from "./views/GeoMapTool";
-import SqlEditorTool from "./views/SqlEditorTool";
+import SqlEditor from "./components/editors/SqlEditor";
+import {Box} from "@mui/system";
+import AlgorithmPicker from "./components/navigations/AlgorithmPicker";
 initFontAwesome();
 
+const configuration = {
+    WebHost : "http://127.0.0.1:9906/"
+}
+
 const App = () => {
-  const { isLoading, error } = useAuth0();
-
-  if (error) {
-    return <div>Oops... {error.message}</div>;
-  }
-
-  if (isLoading) {
-    return <Loading />;
-  }
+  const [selectedCase, setSelectedCase] = useState({})
+  const [token, setToken] = useState('OSINT_LIAR_9ugIHh9VoS_rff4w+CuP~bahAgy+9ie=15j-HCo^IKHiESc*BEYiC^~u!_94-cmU')
+  const [isLoading, setIsLoading] = useState(false)
 
   return (
-    <Router history={history}>
-      <div id="app" className="d-flex flex-column h-100">
-        <NavBar />
-        <Container className="flex-grow-1 mt-5">
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/external-api" component={ExternalApi} />
-            <Route path="/geo-map-tool" component={GeoMapTool} />
-            <Route path="/sql-editor-tool" component={SqlEditorTool} />
-
-          </Switch>
-        </Container>
-        <Footer />
-      </div>
-    </Router>
+    <ThemeProvider theme={theme}>
+        <Box>
+            <Router>
+                <Navigation
+                    configuration={configuration}
+                    token={token}
+                    setToken={setToken}
+                    selectedCase={selectedCase}
+                    setSelectedCase={setSelectedCase}
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
+                />
+                <AlgorithmPicker />
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path={"/sql-editor"} element={<SqlEditor />} />
+                  <Route path={"/pie-charts"} element={<SqlEditor />} />
+                  <Route path={"/bar-charts"} element={<SqlEditor />} />
+                </Routes>
+            </Router>
+        </Box>
+    </ThemeProvider>
   );
 };
 
