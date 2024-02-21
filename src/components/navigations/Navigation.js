@@ -1,10 +1,4 @@
 import React, {useEffect, useState} from "react";
-import MailIcon from '@mui/icons-material/Mail';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import PieChartIcon from '@mui/icons-material/PieChart';
-import StorageIcon from '@mui/icons-material/Storage';
-import MapIcon from '@mui/icons-material/Map';
-import { Link } from 'react-router-dom';
 
 import {
   AppBar,
@@ -18,7 +12,6 @@ import {
   ListItemIcon,
   ListItemText, FormControl, InputLabel, Select, MenuItem
 } from '@mui/material';
-import {List} from "reactstrap";
 import {fetchOsinLiarData} from "../../utils/data";
 
 
@@ -81,7 +74,6 @@ export default function Navigation(props) {
           </Typography>
           {/* eslint-disable-next-line react/jsx-no-undef */}
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-simple-select-label">Options</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -99,48 +91,8 @@ export default function Navigation(props) {
             </Select>
           </FormControl>
         </Toolbar>
-
     </AppBar>
-      <Drawer
-        anchor={'left'}
-        variant="permanent"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
-        }}
-        open
-      >
-        <Toolbar />
-        <Box sx={{ overflow: 'auto' }}>
-          <List component={'nav'}>
-              <ListItem key={'Pie Charts'} component={Link} to={'/pie-charts'}>
-                <ListItemIcon>
-                  <PieChartIcon/>
-                </ListItemIcon>
-                <ListItemText primary={'Pie Charts'} />
-              </ListItem>
-              <ListItem key={'Bar Graphs'} component={Link} to={'/bar-graphs'}>
-                <ListItemIcon>
-                  <BarChartIcon />
-                </ListItemIcon>
-                <ListItemText primary={'Bar Graphs'} />
-              </ListItem>
-              <ListItem key={'Maps'} component={Link} to={'/maps'}>
-                <ListItemIcon>
-                  <MapIcon />
-                </ListItemIcon>
-                <ListItemText primary={'Maps'} />
-              </ListItem>
-              <ListItem key={'Sql Editor'} component={Link} to={'/sql-editor'}>
-                <ListItemIcon>
-                  <StorageIcon />
-                </ListItemIcon>
-                <ListItemText primary={'Sql Editor'} />
-              </ListItem>
-          </List>
-        </Box>
-      </Drawer>
+    <Toolbar/>
     </Box>
   );
 }

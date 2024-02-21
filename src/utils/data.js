@@ -2,7 +2,7 @@ import Mustache from 'mustache';
 
 
 /**
- *
+ * Fetch data from OSINT LIAR
  * @param url
  * @param configurations
  * @param token

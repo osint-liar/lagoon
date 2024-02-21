@@ -1,8 +1,9 @@
 [
   {
-    "name": "Basic Pie Chart By Count",
+    "title": "Basic Pie Chart By Count",
     "id": "basic_pie_chart",
     "active": true,
+    "description": "A basic pie chart",
     "sql": "SELECT {{FieldName}}, COUNT(*) as Count FROM ApiCoreData WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY {{FieldName}} ORDER BY Count DESC",
     "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}&FieldName={{FieldName}}",
     "specification": {
@@ -34,14 +35,15 @@
     }
   },
   {
-    "name": "Content Type Grouped By Summed File Size",
+    "title": "Content Type Grouped By Summed File Size",
     "id": "content_type_by_summed_by_file_size",
     "active": true,
     "sql": "SELECT ContentTypeName, SUM(ContentSize) as SumContentSize FROM ApiCoreData WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY ContentTypeName ORDER BY SumContentSize DESC",
     "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}&FieldName=ContentTypeName",
+    "description": "A pie chart showing the summed disk size by the content type name.",
     "specification": {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "description": "A basic pie chart",
+      "description": "A pie chart showing the summed disk size by the content type name.",
       "data": {
         "url": "",
         "format": {

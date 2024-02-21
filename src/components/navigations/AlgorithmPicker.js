@@ -22,11 +22,9 @@ useEffect(() => {
         <Autocomplete
           disablePortal
           id="combo-box-demo"
-          options={options.map(o => { return {label:o.name, id:o.id} } )}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Select " />
-        }
-/>
+          options={options.map(o => { return {label:o.title, id:o.id} } )}
+          renderInput={(params) => <TextField {...params} label="Select an Algorithm" />}
+        />
     )
 
 }
