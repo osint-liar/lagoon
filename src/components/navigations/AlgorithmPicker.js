@@ -11,10 +11,6 @@ const [options, setOptions] = useState(charts)
 
 useEffect(() => {
     console.log('Location changed!', location.pathname);
-    async function fetchData()
-    {
-
-    }
 
 }, [location]);
 

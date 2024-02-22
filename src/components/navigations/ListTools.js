@@ -10,7 +10,7 @@ import React from "react";
 export default function ListTools(){
     return (
         <Box>
-          <List disablePadding={true} component={'nav'}>
+          <List component={'nav'}>
               <ListItem key={'Pie Charts'} component={Link} to={'/pie-charts'}>
                 <ListItemIcon>
                   <PieChartIcon/>

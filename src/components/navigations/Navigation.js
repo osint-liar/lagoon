@@ -10,17 +10,16 @@ import {
   Drawer,
   ListItem,
   ListItemIcon,
-  ListItemText, FormControl, InputLabel, Select, MenuItem
+  ListItemText, FormControl, InputLabel, Select, MenuItem, IconButton
 } from '@mui/material';
 import {fetchOsinLiarData} from "../../utils/data";
+import ApplicationKeyTokenDialog from "../dialogs/ApplicationKeyTokenDialog";
 
-
-const drawerWidth = 240;
 
 export default function Navigation(props) {
 
   const [caseManagements, setCaseManagements] = useState([])
-  const [selectedCase, setSelectedCase] = useState({})
+  const [selectedCase, setSelectedCase] = useState({Uuid: 'INVALID', Name: null})
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() =>
@@ -28,25 +27,19 @@ export default function Navigation(props) {
       async function fetchData() {
         setIsLoading(true)
         const data = await fetchOsinLiarData('{{WebHost}}v1/case-management', props.configuration, props.token)
-        setCaseManagements(data.Records)
-        setSelectedCase(data.Records[0])
-        if(!props.selectedCase){
-          props.setSelectedCase = data.Records[0]
-        }
-        setIsLoading(false)
-      }
-      fetchData();
-  }, []);
 
-  useEffect(() =>
-  {
-      async function fetchData() {
-        setIsLoading(true)
-        const data = await fetchOsinLiarData('{{WebHost}}v1/case-management', props.configuration, props.token)
-        setCaseManagements(data.Records)
-        setSelectedCase(data.Records[0])
+        if('Error' in data){
+          const record = selectedCase // uses the default from the state
+          setCaseManagements([record])
+        }
+        else {
+          setCaseManagements(data.Records)
+        }
+
+        const currentCase = caseManagements[0]
+        setSelectedCase(currentCase)
         if(!props.selectedCase){
-          props.setSelectedCase = data.Records[0]
+          props.setSelectedCase = currentCase
         }
         setIsLoading(false)
       }
@@ -65,19 +58,18 @@ export default function Navigation(props) {
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+    <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="fixed" >
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
             OSINT LIAR's Lagoon
           </Typography>
           {/* eslint-disable-next-line react/jsx-no-undef */}
-          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+          <FormControl variant="standard" sx={{ m: 0.5, ml:5, minWidth: 150, }}>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={selectedCase.Uuid}
+              value={selectedCase?.Uuid ?? ''}
               label="Select Case"
               onChange={handleChange}
               sx={{ color: 'white', borderBottom: '1px solid white' }} // Styling the select to match the AppBar color scheme
@@ -90,6 +82,9 @@ export default function Navigation(props) {
                     ))}
             </Select>
           </FormControl>
+          <Box sx={{ justifyContent: 'end' }} >
+          <ApplicationKeyTokenDialog />
+          </Box>
         </Toolbar>
     </AppBar>
     <Toolbar/>
