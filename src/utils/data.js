@@ -1,21 +1,29 @@
 import Mustache from 'mustache';
+import {getApplicationKeyToken} from "./app_config";
 
 
 /**
  * Fetch data from OSINT LIAR
  * @param url
  * @param configurations
- * @param token
  * @returns {Promise<any|{Status: number, Type: string, Message: string, Title: string, Count: number, Records: *[]}>}
  */
-export async function fetchOsinLiarData(url, configurations, token)
+export async function fetchOsinLiarData(url, configurations)
 {
-    Mustache.escape = function (text) { return text; }
-    const renderedUrl = Mustache.render(url, configurations)
+    let normalizedConfiguration = {
+        WebHost: configurations.WebHost,
+    }
+
+    if(configurations.SelectedCase?.Name)
+    {
+        normalizedConfiguration.CaseManagementUuid = configurations.SelectedCase.Uuid
+    }
+
+    const renderedUrl = Mustache.render(url, normalizedConfiguration)
     let response
     try {
         response = await fetch(renderedUrl,{
-            headers: {Authorization: `Bearer ${token}`}
+            headers: {Authorization: `Bearer ${getApplicationKeyToken()}`}
       })
     }
     catch(error) {

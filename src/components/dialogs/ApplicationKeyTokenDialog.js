@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from "@mui/material/IconButton";
-import {getApplicationToken, setApplicationToken} from "../../utils/applicationToken";
+import {getApplicationKeyToken, setApplicationToken} from "../../utils/app_config";
 import {TextField} from "@mui/material";
 import TokenIcon from '@mui/icons-material/Token';
 
@@ -14,7 +14,7 @@ import TokenIcon from '@mui/icons-material/Token';
 export default function ApplicationKeyTokenDialog(props) {
 
   const [open, setOpen] = useState(false)
-  const [appToken, setAppToken] = useState(getApplicationToken() ?? '')
+  const [appToken, setAppToken] = useState(getApplicationKeyToken() ?? '')
 
   const updateToken = () => {
     setApplicationToken(appToken)
@@ -41,11 +41,11 @@ export default function ApplicationKeyTokenDialog(props) {
             <div>
               <TextField
                 fullWidth={true}
-                name="applicationToken"
-                id="applicationToken"
+                name="applicationKeyToken"
+                id="applicationKeyToken"
                 label="Required"
                 defaultValue={appToken}
-                helperText="The application token from OSINT LIAR"
+                helperText="The application key token from OSINT LIAR"
                 onChange={(evt) => { setAppToken(evt.target.value) }}
               />
             </div>

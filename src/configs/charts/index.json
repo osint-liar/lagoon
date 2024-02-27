@@ -4,34 +4,18 @@
     "id": "basic_pie_chart",
     "active": true,
     "description": "A basic pie chart",
-    "sql": "SELECT {{FieldName}}, COUNT(*) as Count FROM ApiCoreData WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY {{FieldName}} ORDER BY Count DESC",
-    "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}&FieldName={{FieldName}}",
+    "sql": "SELECT ContentMimeType as ContentMimeType, COUNT(*) as Count FROM ApiCoreData WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY ContentMimeType ORDER BY Count DESC",
+    "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}",
     "specification": {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "description": "A basic pie chart",
-      "data": {
-        "url": "",
-        "format": {
-          "type": "json",
-          "property": "data"
-        }
-      },
-      "transform": [
-        {
-          "calculate": "datum.{{FieldName}}",
-          "as": "category"
-        },
-        {
-          "calculate": "datum.Count",
-          "as": "value"
-        }
-      ],
+      "data": [{
+        "name": "table"
+      }],
       "mark": "arc",
       "encoding": {
-        "theta": {"field": "value", "type": "quantitative"},
-        "color": {"field": "category", "type": "nominal"}
+        "theta": {"field": "Count", "type": "quantitative"},
+        "color": {"field": "ContentMimeType", "type": "nominal"}
       },
-      "view": {"stroke": null}
     }
   },
   {
@@ -43,30 +27,43 @@
     "description": "A pie chart showing the summed disk size by the content type name.",
     "specification": {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "description": "A pie chart showing the summed disk size by the content type name.",
       "data": {
-        "url": "",
-        "format": {
-          "type": "json",
-          "property": "data"
-        }
+        "name": "table"
       },
-      "transform": [
-        {
-          "calculate": "datum.FieldName",
-          "as": "category"
-        },
-        {
-          "calculate": "datum.Count",
-          "as": "value"
-        }
-      ],
       "mark": "arc",
       "encoding": {
-        "theta": {"field": "value", "type": "quantitative"},
-        "color": {"field": "category", "type": "nominal"}
+        "theta": {"field": "SumContentSize", "type": "quantitative"},
+        "color": {"field": "ContentTypeName", "type": "nominal"}
+      }
+    }
+  },
+  {
+    "title": "Static Example",
+    "id": "static_example",
+    "active": true,
+    "sql": "SELECT ContentTypeName, SUM(ContentSize) as SumContentSize FROM ApiCoreData WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY ContentTypeName ORDER BY SumContentSize DESC",
+    "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}&FieldName=ContentTypeName",
+    "description": "A static pie chart",
+    "specification": {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "A basic pie chart showing the distribution of different content mime types",
+      "data": {
+        "values": [
+          { "ContentMimeType": "message/rfc822", "Count": 51 },
+          { "ContentMimeType": "application/pdf", "Count": 5 },
+          { "ContentMimeType": "image/jpeg", "Count": 1 }
+        ]
       },
-      "view": {"stroke": null}
+      "mark": "arc",
+      "encoding": {
+        "theta": { "field": "Count", "type": "quantitative" },
+        "color": { "field": "ContentMimeType", "type": "nominal", "legend": { "title": "Content Mime Type" } },
+        "tooltip": [
+          { "field": "ContentMimeType", "type": "nominal", "title": "Mime Type" },
+          { "field": "Count", "type": "quantitative", "title": "Count" }
+        ]
+      },
+      "view": { "stroke": null }
     }
   }
 ]

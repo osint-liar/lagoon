@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
 import {
   AppBar,
@@ -14,6 +14,8 @@ import {
 } from '@mui/material';
 import {fetchOsinLiarData} from "../../utils/data";
 import ApplicationKeyTokenDialog from "../dialogs/ApplicationKeyTokenDialog";
+import {getApplicationKeyToken, getDefaultConfiguration} from "../../utils/app_config";
+import AppContext from "../providers/AppContext";
 
 
 export default function Navigation(props) {
@@ -21,12 +23,14 @@ export default function Navigation(props) {
   const [caseManagements, setCaseManagements] = useState([])
   const [selectedCase, setSelectedCase] = useState({Uuid: 'INVALID', Name: null})
   const [isLoading, setIsLoading] = useState(true)
+  const {appConfiguration, updateAppConfiguration} = useContext(AppContext);
+
 
   useEffect(() =>
   {
       async function fetchData() {
         setIsLoading(true)
-        const data = await fetchOsinLiarData('{{WebHost}}v1/case-management', props.configuration, props.token)
+        const data = await fetchOsinLiarData('{{WebHost}}v1/case-management', getDefaultConfiguration())
 
         if('Error' in data){
           const record = selectedCase // uses the default from the state
@@ -41,6 +45,9 @@ export default function Navigation(props) {
         if(!props.selectedCase){
           props.setSelectedCase = currentCase
         }
+        let appConfig = {...appConfiguration}
+        appConfig.SelectedCase = selectedCase
+        updateAppConfiguration(appConfig)
         setIsLoading(false)
       }
       fetchData();
@@ -51,6 +58,9 @@ export default function Navigation(props) {
     const found = caseManagements.find(c => c.Uuid === event.target.value)
     props.setSelectedCase(found)
     setSelectedCase(found)
+    let appConfig = {...appConfiguration}
+    appConfig.SelectedCase = {...found}
+    updateAppConfiguration(appConfig)
   }
 
   if(isLoading){

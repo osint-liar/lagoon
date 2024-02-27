@@ -3,7 +3,7 @@ import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Divider} from '@mui/material';
 import {Box} from "@mui/system";
 import {fetchOsinLiarData} from "../../utils/data";
-import {getApplicationToken, getConfiguration} from "../../utils/applicationToken";
+import {getApplicationKeyToken, getConfiguration, getDefaultConfiguration} from "../../utils/app_config";
 
 
 const SqlEditor = (props) => {
@@ -32,7 +32,7 @@ const SqlEditor = (props) => {
 
   async function runSqlQuery()
   {
-    const data = await fetchOsinLiarData(`{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery=${encodeURIComponent(sql)}`, getConfiguration(), getApplicationToken())
+    const data = await fetchOsinLiarData(`{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery=${encodeURIComponent(sql)}`, getDefaultConfiguration())
     setRecords(data.Records)
   }
 
