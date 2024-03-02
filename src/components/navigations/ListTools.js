@@ -1,4 +1,4 @@
-import {Box, Drawer, ListItem, ListItemIcon, ListItemText, Toolbar} from "@mui/material";
+import {Box, ListItem, ListItemIcon, ListItemText} from "@mui/material";
 import {List} from "reactstrap";
 import {Link} from "react-router-dom";
 import PieChartIcon from "@mui/icons-material/PieChart";
@@ -35,6 +35,13 @@ export default function ListTools(){
                 </ListItemIcon>
                 <ListItemText primary={'Sql Editor'} />
               </ListItem>
+              <ListItem key={'Timelines'} component={Link} to={'/timelines'}>
+                <ListItemIcon>
+                  <MapIcon />
+                </ListItemIcon>
+                <ListItemText primary={'Timelines'} />
+              </ListItem>
+
           </List>
         </Box>
     )

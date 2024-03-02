@@ -1,0 +1,14 @@
+ [
+    {
+        "title": "Calendar Heat Map By Years",
+        "id": "calendar-heat-map-years",
+        "active": true,
+        "route": "/timelines/calendar-heat-map-years",
+        "description": "Calendar Heat Map By Years",
+        "sql": "SELECT strftime('%s', strftime('%Y-%m-%d', ContentStartedOn, 'utc')) AS Day, COUNT(*) AS Count FROM ApiCoreData WHERE ContentStartedOn IS NOT NULL AND CaseManagementUuid = :CaseManagementUuid GROUP BY Day ORDER BY Day",
+        "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}",
+        "specification": {
+
+        }
+    }
+ ]

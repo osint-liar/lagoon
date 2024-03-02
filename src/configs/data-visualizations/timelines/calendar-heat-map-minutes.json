@@ -1,0 +1,14 @@
+ [
+    {
+        "title": "Calendar Heat Map By Minutes",
+        "id": "calendar-heat-map-minutes",
+        "active": true,
+        "route": "/timelines/calendar-heat-map-minutes",
+        "description": "Calendar Heat Map By Minutes",
+        "sql": "SELECT strftime('%s', strftime('%Y-%m-%d', ContentStartedOn, 'utc')) AS Day, COUNT(*) AS Count FROM ApiCoreData WHERE ContentStartedOn IS NOT NULL AND CaseManagementUuid = :CaseManagementUuid GROUP BY Day ORDER BY Day",
+        "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}",
+        "specification": {
+
+        }
+    }
+ ]

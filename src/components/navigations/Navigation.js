@@ -4,17 +4,12 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Button,
   Box,
-  CssBaseline,
-  Drawer,
-  ListItem,
-  ListItemIcon,
-  ListItemText, FormControl, InputLabel, Select, MenuItem, IconButton
+  FormControl, Select, MenuItem
 } from '@mui/material';
 import {fetchOsinLiarData} from "../../utils/data";
 import ApplicationKeyTokenDialog from "../dialogs/ApplicationKeyTokenDialog";
-import {getApplicationKeyToken, getDefaultConfiguration} from "../../utils/app_config";
+import {getDefaultConfiguration} from "../../utils/app_config";
 import AppContext from "../providers/AppContext";
 
 

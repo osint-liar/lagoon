@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {BrowserRouter as Router, Routes, Route, BrowserRouter} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 import Home from "./components/views/Home";
 import About from "./components/views/About";
@@ -14,14 +14,15 @@ import "./App.css";
 import initFontAwesome from "./utils/initFontAwesome";
 import SqlEditor from "./components/editors/SqlEditor";
 import {Box} from "@mui/system";
-import AlgorithmPicker from "./components/navigations/AlgorithmPicker";
+import DataPanoramaPicker from "./components/navigations/DataPanoramaPicker";
 import Paper from "@mui/material/Paper";
 import PieChart from "./components/charts/PieChart";
 import ListTools from "./components/navigations/ListTools";
 import Grid from "@mui/material/Grid";
-import {setApplicationToken, getApplicationKeyToken, getDefaultConfiguration} from "./utils/app_config";
 import AppProvider from "./components/providers/AppProvider";
 import Mustache from "mustache";
+import TimelineRouter from "./components/timelines/TimelineRouter";
+import CalHeatmapTimeline from "./components/timelines/CalHeatmapTimeline";
 initFontAwesome();
 
 
@@ -32,9 +33,6 @@ Mustache.escape = function (text) { return text; }
 const App = () => {
   const [selectedCase, setSelectedCase] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-  const [token, setToken] = useState(getApplicationKeyToken())
-  const [configuration, setConfiguration] = useState(getDefaultConfiguration())
-  const [algorithm, setAlgorithm] = useState({})
 
 
   return (
@@ -56,7 +54,7 @@ const App = () => {
                     </Grid>
                     <Grid item xs={10}>
                         <Paper elevation={3} sx={{ margin: 1, padding: 0 }}>
-                            <AlgorithmPicker />
+                            <DataPanoramaPicker />
                         </Paper>
                         <Paper elevation={3} sx={{ margin: 1, padding: 0 }}>
                           <Box sx={{ minHeight: '60vh' }}> {/* Adjust styling as needed */}
@@ -64,7 +62,8 @@ const App = () => {
                               <Route path="/" element={<Home />} />
                               <Route path="/about" element={<About />} />
                               <Route path={"/sql-editor"} element={<SqlEditor />} />
-                              <Route path={"/pie-charts"} element={<PieChart algorithm={algorithm}/>} />
+                              <Route path={"/pie-charts"} element={<PieChart />} />
+                              <Route path={"/timelines"} element={<CalHeatmapTimeline />} />
                               <Route path={"/bar-charts"} element={<SqlEditor />} />
                             </Routes>
                           </Box>

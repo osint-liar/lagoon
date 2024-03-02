@@ -1,0 +1,100 @@
+[
+  {
+    "title": "Count Mime Type",
+    "id": "basic_pie_chart",
+    "active": true,
+    "route": "/pie-charts",
+    "description": "A basic pie chart",
+    "sql": "SELECT ContentMimeType as ContentMimeType, COUNT(*) as Count FROM ApiCoreData WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY ContentMimeType ORDER BY Count DESC",
+    "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}",
+    "specification": {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "data": {
+        "values": []
+      },
+      "mark": "arc",
+      "encoding": {
+        "theta": {"field": "Count", "type": "quantitative"},
+        "color": {"field": "ContentMimeType", "type": "nominal"}
+      }
+    }
+  },
+  {
+    "title": "Content Type Grouped By Summed File Size (MB)",
+    "id": "content_type_by_summed_by_file_size_mb",
+    "active": true,
+    "route": "/pie-charts",
+    "sql": "SELECT ContentTypeName, SUM(ContentSize) as SumContentSize FROM ApiCoreData WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY ContentTypeName ORDER BY SumContentSize DESC",
+    "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}&FieldName=ContentTypeName",
+    "description": "A pie chart showing the summed disk size by the content type name in megabytes.",
+    "specification": {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "A pie chart showing the summed disk size by the content type name in megabytes.",
+      "data": {
+        "values": []
+      },
+      "transform": [
+        {
+          "calculate": "datum.SumContentSize / 1e6",
+          "as": "SizeInMegabytes"
+        }
+      ],
+      "layer": [
+        {
+          "mark": "arc",
+          "encoding": {
+            "theta": {"field": "SizeInMegabytes", "type": "quantitative"},
+            "color": {
+              "field": "ContentTypeName",
+              "type": "nominal",
+              "legend": {"title": "Content Type"}
+            },
+            "tooltip": [
+              {"field": "ContentTypeName", "type": "nominal", "title": "Content Type"},
+              {"field": "SizeInMegabytes", "type": "quantitative", "title": "Size (MB)", "format": ".2f"}
+            ]
+          }
+        },
+        {
+          "mark": {"type": "text", "radius": 120},
+          "encoding": {
+            "text": {"field": "SizeInMegabytes", "type": "quantitative", "format": ".2f"},
+            "theta": {"field": "SizeInMegabytes", "type": "quantitative"},
+            "color": {"value": "black"}
+          }
+        }
+      ]
+    }
+  },
+  {
+    "title": "Static Example",
+    "id": "static_example",
+    "active": true,
+    "route": "/pie-charts",
+    "sql": "SELECT ContentTypeName, SUM(ContentSize) as SumContentSize FROM ApiCoreData WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY ContentTypeName ORDER BY SumContentSize DESC",
+    "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}&FieldName=ContentTypeName",
+    "description": "A static pie chart",
+    "specification": {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "A basic pie chart showing the distribution of different content mime types",
+      "data": {
+        "values": [
+          {"ContentMimeType": "message/rfc822", "Count": 51},
+          {"ContentMimeType": "application/pdf", "Count": 5},
+          {"ContentMimeType": "image/jpeg", "Count": 1}
+        ]
+      },
+      "width": 600,
+      "height": 900,
+      "mark": "arc",
+      "encoding": {
+        "theta": {"field": "Count", "type": "quantitative"},
+        "color": {"field": "ContentMimeType", "type": "nominal", "legend": {"title": "Content Mime Type"}},
+        "tooltip": [
+          {"field": "ContentMimeType", "type": "nominal", "title": "Mime Type"},
+          {"field": "Count", "type": "quantitative", "title": "Count"}
+        ]
+      }
+    }
+  }
+]

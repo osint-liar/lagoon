@@ -1,12 +1,12 @@
-import React, {useState, useEffect, useRef} from 'react';
-import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
+import React, {useState, useEffect} from 'react';
+import Editor from '@monaco-editor/react';
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Divider} from '@mui/material';
 import {Box} from "@mui/system";
 import {fetchOsinLiarData} from "../../utils/data";
-import {getApplicationKeyToken, getConfiguration, getDefaultConfiguration} from "../../utils/app_config";
+import {getDefaultConfiguration} from "../../utils/app_config";
 
 
-const SqlEditor = (props) => {
+const SqlEditor = () => {
   const [sql, setSql] = useState('SELECT * FROM ApiCoreData LIMIT 1');
   const [records, setRecords] = useState([])
 
@@ -24,10 +24,6 @@ const SqlEditor = (props) => {
   function handleEditorValidation(markers) {
     // model markers
     // markers.forEach(marker => console.log('onValidate:', marker.message));
-  }
-
-  function handleEditorChange(value, event) {
-    setSql(value)
   }
 
   async function runSqlQuery()

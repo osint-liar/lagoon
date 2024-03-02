@@ -5,16 +5,17 @@ const VegaChart = ({ spec }) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
-    const embedOptions = { actions: false }; // Customize Vega-Embed options here
 
-    // Ensure the container is ready before attempting to embed the visualization
-    if (chartRef.current) {
-      vegaEmbed(chartRef.current, spec, embedOptions)
-        .then((result) => {
-          // Handle the result or interact with the view here
-        })
-        .catch((error) => console.error(error));
+    async function fetchData()
+    {
+      const embedOptions = { actions: false }; // Customize Vega-Embed options here
+        // Ensure the container is ready before attempting to embed the visualization
+        if (chartRef.current) {
+          const result = await vegaEmbed(chartRef.current, spec, embedOptions)
+          console.log(result.view)
+        }
     }
+    fetchData()
 
     // Optional: Cleanup function to remove the view
     return () => {

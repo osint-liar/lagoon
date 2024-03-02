@@ -11,7 +11,6 @@ const PieChart = () => {
   const [isLoading, setIsLoading] = useState(false)
   const {appConfiguration, updateAppConfiguration} = useContext(AppContext);
   const [selected, setSelected] = useState({title:''})
-  const [records, setRecords] = useState([])
 
   const location = useLocation();
 
@@ -20,7 +19,6 @@ const PieChart = () => {
       async function fetchData() {
         setIsLoading(true)
         if(appConfiguration.Algorithm && location.pathname === '/pie-charts' && appConfiguration.SelectedCase?.Name !== null){
-            console.log(`Updating pie chart`)
             let tmp = {...appConfiguration.Algorithm}
 
             let dataUrl = Mustache.render(tmp.dataUrl, {
@@ -30,16 +28,11 @@ const PieChart = () => {
             })
             tmp.dataUrl = dataUrl
             const data = await fetchOsinLiarData(tmp.dataUrl, appConfiguration)
-            setRecords(data.Records)
             console.log(tmp.specification)
+            tmp.specification.data.values = data.Records
             setSelected(tmp)
-            setIsLoading(false)
         }
-        else
-        {
-
-        }
-
+        setIsLoading(false)
       }
       fetchData();
   }, [appConfiguration, location]);
@@ -52,10 +45,14 @@ const PieChart = () => {
           </Typography>
       )
   }
+  if(isLoading){
+      return <div></div>
+  }
+
   return (
       <>
           <span>You selected {selected.title ?? ''}</span>
-           <VegaChart spec={selected.specification} />
+           <VegaChart spec={appConfiguration.Algorithm.specification} />
       </>
   )
 

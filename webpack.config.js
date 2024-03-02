@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MergeJsonPlugin = require('merge-json-webpack-plugin');
+
 
 module.exports = {
   entry: './src/index.js',
@@ -39,6 +41,23 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
+    }),
+    new MergeJsonPlugin({
+      force: true,
+      groups: [
+        {
+          files: [
+              'src/configs/data-visualizations/charts/pie.json2',
+              'calendar-heat-map.json'
+          ],
+          transform: (outputJson) => { console.log(`JSON 3 IS ${JSON.stringify(outputJson)}`); return outputJson; },
+        },
+        {
+          transform: (outputJson) => { console.log(`JSON 2 IS ${JSON.stringify(outputJson)}`); return outputJson; },
+          pattern: 'src/**/**/*.json', // glob. see https://github.com/mrmlnc/fast-glob
+          to: './data-visualizations.json',
+        },
+      ],
     }),
     // CopyWebpackPlugin is used to copy the Monaco Editor's workers and other assets to the output directory
     new CopyWebpackPlugin({

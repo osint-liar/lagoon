@@ -1,5 +1,6 @@
-'use strict';
-
+const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
+const WatchExternalFilesPlugin = require('webpack-watch-external-files-plugin');
+const MergeJsonPlugin = require('merge-json-webpack-plugin');
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
@@ -27,6 +28,7 @@ const ForkTsCheckerWebpackPlugin =
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const createEnvironmentHash = require('./webpack/persistentCache/createEnvironmentHash');
+const {appPath, appSrc, publicUrlOrPath, appPublic} = require("./paths");
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
@@ -589,6 +591,35 @@ module.exports = function (webpackEnv) {
             : undefined
         )
       ),
+      new ExtraWatchWebpackPlugin({
+        files: [ 'src/configs/data-visualizations/**/*.json' ],
+      }),
+      new WatchExternalFilesPlugin({ // causes the rebuild of dv-index
+        files: ['src/configs/data-visualizations/**/*.json'],
+      }),
+      new MergeJsonPlugin({
+        force: false,
+        minify: false,
+        groups: [
+          {
+            transform: (outputJson) => {
+              // this is the only way I could get the merged json file to build dynamically
+              const outputPath = path.resolve(appPublic, 'data', 'dv-index.json');
+              // Write the string to the specified file
+              const jsonStr = JSON.stringify(outputJson)
+              console.log(jsonStr + "\n\n\n")
+              //fs.writeFileSync(outputPath, jsonStr, {encoding:'utf8',flag:'w'})
+              return outputJson
+            },
+            pattern: [
+                'src/configs/data-visualizations/*/*.json',
+                'src/configs/data-visualizations/**/*.json',
+
+            ], // glob. see https://github.com/mrmlnc/fast-glob
+            to: path.resolve(appPublic, 'data', 'dv-index.json')
+          }
+        ],
+      }),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358
