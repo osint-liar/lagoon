@@ -1,10 +1,10 @@
  [
     {
-        "title": "Calendar Heat Map By Years",
-        "id": "calendar-heat-map-years",
+        "title": "Show All GPS Markers",
+        "id": "leaflet-all-markers",
         "active": true,
-        "route": "/timelines/calendar-heat-map-years",
-        "description": "Calendar Heat Map By Years",
+        "route": "/geomaps",
+        "description": "Show All GPS Markers",
         "sql": "SELECT Date(ContentStartedOn) AS `date`, COUNT(*) AS value FROM ApiCoreData WHERE ContentStartedOn IS NOT NULL GROUP BY `date` ORDER BY `date` ASC",
         "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}",
         "specification": {

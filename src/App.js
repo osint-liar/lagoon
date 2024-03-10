@@ -23,6 +23,7 @@ import AppProvider from "./components/providers/AppProvider";
 import Mustache from "mustache";
 import TimelineRouter from "./components/timelines/TimelineRouter";
 import CalHeatmapTimeline from "./components/timelines/CalHeatmapTimeline";
+import LeafletMap from "./components/geomaps/LeafletMap";
 initFontAwesome();
 
 
@@ -63,6 +64,7 @@ const App = () => {
                               <Route path="/about" element={<About />} />
                               <Route path={"/sql-editor"} element={<SqlEditor />} />
                               <Route path={"/pie-charts"} element={<PieChart />} />
+                              <Route path={"/geomaps"} element={<LeafletMap center={[51.505, -0.09]} zoom={13} />} />
                               <Route path={"/timelines"} element={<CalHeatmapTimeline />} />
                               <Route path={"/bar-charts"} element={<SqlEditor />} />
                             </Routes>

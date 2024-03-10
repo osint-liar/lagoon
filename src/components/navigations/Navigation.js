@@ -7,7 +7,7 @@ import {
   Box,
   FormControl, Select, MenuItem
 } from '@mui/material';
-import {fetchOsinLiarData} from "../../utils/data";
+import {fetchOsintLiarData} from "../../utils/data";
 import ApplicationKeyTokenDialog from "../dialogs/ApplicationKeyTokenDialog";
 import {getDefaultConfiguration} from "../../utils/app_config";
 import AppContext from "../providers/AppContext";
@@ -25,7 +25,7 @@ export default function Navigation(props) {
   {
       async function fetchData() {
         setIsLoading(true)
-        const data = await fetchOsinLiarData('{{WebHost}}v1/case-management', getDefaultConfiguration())
+        const data = await fetchOsintLiarData('{{WebHost}}v1/case-management', getDefaultConfiguration())
 
         if('Error' in data){
           const record = selectedCase // uses the default from the state

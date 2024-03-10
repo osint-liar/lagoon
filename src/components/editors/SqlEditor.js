@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Editor from '@monaco-editor/react';
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Divider} from '@mui/material';
 import {Box} from "@mui/system";
-import {fetchOsinLiarData} from "../../utils/data";
+import {fetchOsintLiarData} from "../../utils/data";
 import {getDefaultConfiguration} from "../../utils/app_config";
 
 
@@ -28,7 +28,7 @@ const SqlEditor = () => {
 
   async function runSqlQuery()
   {
-    const data = await fetchOsinLiarData(`{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery=${encodeURIComponent(sql)}`, getDefaultConfiguration())
+    const data = await fetchOsintLiarData(`{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery=${encodeURIComponent(sql)}`, getDefaultConfiguration())
     setRecords(data.Records)
   }
 

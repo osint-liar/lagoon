@@ -23,7 +23,7 @@ export default function ListTools(){
                 </ListItemIcon>
                 <ListItemText primary={'Bar Graphs'} />
               </ListItem>
-              <ListItem key={'Maps'} component={Link} to={'/maps'}>
+              <ListItem key={'Maps'} component={Link} to={'/geomaps'}>
                 <ListItemIcon>
                   <MapIcon />
                 </ListItemIcon>

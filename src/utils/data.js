@@ -8,7 +8,7 @@ import {getApplicationKeyToken} from "./app_config";
  * @param configurations
  * @returns {Promise<any|{Status: number, Type: string, Message: string, Title: string, Count: number, Records: *[]}>}
  */
-export async function fetchOsinLiarData(url, configurations)
+export async function fetchOsintLiarData(url, configurations)
 {
     let normalizedConfiguration = {
         WebHost: configurations.WebHost,
@@ -39,3 +39,15 @@ export async function fetchOsinLiarData(url, configurations)
     const data = await response.json()
     return data
 }
+
+/**
+ * Fetch data from the sql endpoint
+ * @param sql
+ * @param configurations
+ * @returns {Promise<*|{Status: number, Type: string, Message: string, Title: string, Count: number, Records: *[]}>}
+ */
+async function fetchDataBySql(sql, configurations){
+    const data = await fetchOsintLiarData("{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery="+encodeURIComponent(sql), configurations)
+    return data
+}
+

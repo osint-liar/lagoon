@@ -28,9 +28,9 @@ export default function DataPanoramaPicker(props){
             setValue(null)
             console.log(`Filtered on ${pathName}`)
 
-            const filtered = jsonData.filter(dv => dv.route === pathName) ?? []
+            const filtered = jsonData.filter(dv => dv.route.startsWith(pathName)) ?? []
             setOptions(filtered)
-
+            console.log(filtered)
             } catch (error){
               setOptions([])
               console.error("Could not fetch JSON data:", error);

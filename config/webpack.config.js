@@ -592,10 +592,10 @@ module.exports = function (webpackEnv) {
         )
       ),
       new ExtraWatchWebpackPlugin({
-        files: [ 'src/configs/data-visualizations/**/*.json' ],
+        files: [ 'src/configs/data-visualizations/timelines/*.json' ],
       }),
       new WatchExternalFilesPlugin({ // causes the rebuild of dv-index
-        files: ['src/configs/data-visualizations/**/*.json'],
+        files: ['src/configs/data-visualizations/timelines/*.json'],
       }),
       new MergeJsonPlugin({
         force: false,
@@ -608,12 +608,11 @@ module.exports = function (webpackEnv) {
               // Write the string to the specified file
               const jsonStr = JSON.stringify(outputJson)
               console.log(jsonStr + "\n\n\n")
-              //fs.writeFileSync(outputPath, jsonStr, {encoding:'utf8',flag:'w'})
+              fs.writeFileSync(outputPath, jsonStr, {encoding:'utf8',flag:'w'})
               return outputJson
             },
             pattern: [
-                'src/configs/data-visualizations/*/*.json',
-                'src/configs/data-visualizations/**/*.json',
+                'src/configs/data-visualizations/timelines/*.json',
 
             ], // glob. see https://github.com/mrmlnc/fast-glob
             to: path.resolve(appPublic, 'data', 'dv-index.json')

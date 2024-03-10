@@ -2,7 +2,7 @@ import Typography from "@mui/material/Typography";
 import {useContext, useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 import AppContext from "../providers/AppContext";
-import {fetchOsinLiarData} from "../../utils/data";
+import {fetchOsintLiarData} from "../../utils/data";
 import Mustache from 'mustache';
 import VegaChart from "./VegaChart";
 
@@ -27,7 +27,7 @@ const PieChart = () => {
                 SqlQuery: encodeURIComponent(appConfiguration.Algorithm.sql)
             })
             tmp.dataUrl = dataUrl
-            const data = await fetchOsinLiarData(tmp.dataUrl, appConfiguration)
+            const data = await fetchOsintLiarData(tmp.dataUrl, appConfiguration)
             console.log(tmp.specification)
             tmp.specification.data.values = data.Records
             setSelected(tmp)
