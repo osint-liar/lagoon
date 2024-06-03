@@ -4,12 +4,15 @@
 /node_modules
 /.pnp
 .pnp.js
+'./
 
 # testing
 /coverage
 
 # production
 /build
+/dist
+
 
 # misc
 .DS_Store
@@ -23,4 +26,3 @@ yarn-debug.log*
 yarn-error.log*
 
 auth_config.json
-/'./
