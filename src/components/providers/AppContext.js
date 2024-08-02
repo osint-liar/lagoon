@@ -1,4 +1,4 @@
-// MyContext.js
+// AppContext.js
 import React from 'react';
 import {getDefaultConfiguration} from "../../utils/app_config";
 

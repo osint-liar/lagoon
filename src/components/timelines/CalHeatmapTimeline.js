@@ -11,8 +11,7 @@ import {useLocation} from "react-router-dom";
 
 const CalHeatmapTimeline = () => {
 
-  const {appConfiguration, updateAppConfiguration} = useContext(AppContext);
-  const [records, setRecords] = useState([])
+  const {appConfiguration} = useContext(AppContext);
   const location = useLocation();
   const cal = new CalHeatmap();
 
