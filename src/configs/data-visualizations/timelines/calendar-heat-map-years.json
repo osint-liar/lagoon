@@ -5,7 +5,7 @@
         "active": true,
         "route": "/timelines/calendar-heat-map-years",
         "description": "Calendar Heat Map By Years",
-        "sql": "SELECT Date(ContentStartedOn) AS `date`, COUNT(*) AS value FROM ApiCoreData WHERE ContentStartedOn IS NOT NULL GROUP BY `date` ORDER BY `date` ASC",
+        "sql": "SELECT Date(ContentStartedOn) AS `date`, COUNT(*) AS value FROM ContentSchema WHERE ContentStartedOn IS NOT NULL GROUP BY `date` ORDER BY `date` ASC",
         "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}",
         "specification": {
             "range": 12,

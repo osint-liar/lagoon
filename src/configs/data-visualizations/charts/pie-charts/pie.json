@@ -5,7 +5,7 @@
     "active": true,
     "route": "/pie-charts",
     "description": "A basic pie chart",
-    "sql": "SELECT ContentMimeType as ContentMimeType, COUNT(*) as Count FROM ApiCoreData WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY ContentMimeType ORDER BY Count DESC",
+    "sql": "SELECT ContentMimeType as ContentMimeType, COUNT(*) as Count FROM ContentSchema WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY ContentMimeType ORDER BY Count DESC",
     "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}",
     "specification": {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -24,7 +24,7 @@
     "id": "content_type_by_summed_by_file_size_mb",
     "active": true,
     "route": "/pie-charts",
-    "sql": "SELECT ContentTypeName, SUM(ContentSize) as SumContentSize FROM ApiCoreData WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY ContentTypeName ORDER BY SumContentSize DESC",
+    "sql": "SELECT ContentTypeName, SUM(ContentSize) as SumContentSize FROM ContentSchema WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY ContentTypeName ORDER BY SumContentSize DESC",
     "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}&FieldName=ContentTypeName",
     "description": "A pie chart showing the summed disk size by the content type name in megabytes.",
     "specification": {
@@ -71,7 +71,7 @@
     "id": "static_example",
     "active": true,
     "route": "/pie-charts",
-    "sql": "SELECT ContentTypeName, SUM(ContentSize) as SumContentSize FROM ApiCoreData WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY ContentTypeName ORDER BY SumContentSize DESC",
+    "sql": "SELECT ContentTypeName, SUM(ContentSize) as SumContentSize FROM ContentSchema WHERE CaseManagementUuid = :CaseManagementUuid GROUP BY ContentTypeName ORDER BY SumContentSize DESC",
     "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}&FieldName=ContentTypeName",
     "description": "A static pie chart",
     "specification": {

@@ -7,7 +7,7 @@ import {getDefaultConfiguration} from "../../utils/app_config";
 
 
 const SqlEditor = () => {
-  const [sql, setSql] = useState('SELECT * FROM ApiCoreData LIMIT 1');
+  const [sql, setSql] = useState('SELECT * FROM ContentSchema LIMIT 1');
   const [records, setRecords] = useState([])
 
 

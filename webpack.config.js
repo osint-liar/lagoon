@@ -47,7 +47,7 @@ module.exports = {
       groups: [
         {
           files: [
-              'src/configs/data-visualizations/charts/pie.json2',
+              'src/configs/data-visualizations/charts/pie.json',
               'calendar-heat-map.json'
           ],
           transform: (outputJson) => { console.log(`JSON 3 IS ${JSON.stringify(outputJson)}`); return outputJson; },
