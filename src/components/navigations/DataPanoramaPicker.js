@@ -1,53 +1,41 @@
 import {Autocomplete, TextField} from "@mui/material";
 import {useContext, useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
-
-import AppContext from "../providers/AppContext";
 import * as uuid from "uuid";
+import pieCharts from "../../configs/data-visualizations/charts/pie-charts/pie.json";
+import {fetchOsintLiarData} from "../../utils/data";
+import Mustache from 'mustache';
 
 export default function DataPanoramaPicker(props){
-
+    const {setSelectedAlgorithm, selectedCase} = props
     const location = useLocation();
-    const [options, setOptions] = useState([])
+    const options = pieCharts;
     const [value, setValue] = useState(null)
-    const {appConfiguration, updateAppConfiguration} = useContext(AppContext);
 
     useEffect(() => {
         async function fetchData(){
             const pathName = location.pathname
             console.log('Location changed!', pathName);
-            try {
-              const response = await fetch('/data/dv-index.json?cache='+ uuid.v4());
-              if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-              }
-            const jsonData = await response.json();
-
-            console.log(jsonData);
-
-            setValue(null)
-            console.log(`Filtered on ${pathName}`)
-
-            const filtered = jsonData.filter(dv => dv.route.startsWith(pathName)) ?? []
-            setOptions(filtered)
-            console.log(filtered)
-            } catch (error){
-              setOptions([])
-              console.error("Could not fetch JSON data:", error);
-            }
         }
         fetchData()
 
-    }, [location]);
+    }, [location, selectedCase]);
 
-    const updateAlgorithm = (selectedValue) => {
+    const updateAlgorithm = async (selectedValue) => {
         setValue(selectedValue);
-        let appConfig = {...appConfiguration}
-        const algorithm = options.find(o => o.id === selectedValue.id)
-        appConfig.Algorithm = algorithm
-        updateAppConfiguration(appConfig)
-    }
+        let algorithm = {...options.find(o => o.id === selectedValue.id)}
 
+        let dataUrl = Mustache.render(algorithm.dataUrl, {
+            WebHost: 'http://127.0.0.1:9906/',
+            CaseManagementUuid: selectedCase.Uuid,
+            SqlQuery: encodeURIComponent(algorithm.sql)
+        });
+
+        const data = await fetchOsintLiarData(dataUrl, {})
+        console.log(algorithm.specification)
+        algorithm.specification.data.values = data.Records
+        setSelectedAlgorithm(algorithm);
+    }
 
     return (
         <Autocomplete

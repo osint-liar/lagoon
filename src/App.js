@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, StrictMode} from "react";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 import Home from "./components/views/Home";
@@ -32,13 +32,13 @@ Mustache.escape = function (text) { return text; }
 
 
 const App = () => {
-  const [selectedCase, setSelectedCase] = useState({})
+  const [selectedCase, setSelectedCase] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState(null)
 
   return (
-    <ThemeProvider theme={theme}>
-        <AppProvider>
+      <StrictMode>
+        <ThemeProvider theme={theme}>
             <Box>
                 <Navigation
                     selectedCase={selectedCase}
@@ -46,36 +46,47 @@ const App = () => {
                     isLoading={isLoading}
                     setIsLoading={setIsLoading}
                 />
-                <Router>
-                <Grid container spacing={1}>
-                    <Grid item xs={2}>
-                        <Paper elevation={3} sx={{ margin: 0.5, padding: 0 }}>
-                            <ListTools />
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={10}>
-                        <Paper elevation={3} sx={{ margin: 1, padding: 0 }}>
-                            <DataPanoramaPicker />
-                        </Paper>
-                        <Paper elevation={3} sx={{ margin: 1, padding: 0 }}>
-                          <Box sx={{ minHeight: '60vh' }}> {/* Adjust styling as needed */}
-                            <Routes>
-                              <Route path="/" element={<Home />} />
-                              <Route path="/about" element={<About />} />
-                              <Route path={"/sql-editor"} element={<SqlEditor />} />
-                              <Route path={"/pie-charts"} element={<PieChart />} />
-                              <Route path={"/geomaps"} element={<LeafletMap center={[51.505, -0.09]} zoom={13} />} />
-                              <Route path={"/timelines"} element={<CalHeatmapTimeline />} />
-                              <Route path={"/bar-charts"} element={<SqlEditor />} />
-                            </Routes>
-                          </Box>
-                        </Paper>
-                    </Grid>
-                </Grid>
-                </Router>
+                { !isLoading && selectedCase ?
+                    <Router>
+                        <Grid container spacing={1}>
+                            <Grid item xs={2}>
+                                <Paper elevation={3} sx={{margin: 0.5, padding: 0}}>
+                                    <ListTools/>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={10}>
+                                <Paper elevation={3} sx={{margin: 1, padding: 0}}>
+                                    <DataPanoramaPicker
+                                        setSelectedAlgorithm={setSelectedAlgorithm}
+                                        selectedCase={selectedCase}
+                                    />
+                                </Paper>
+                                <Paper elevation={3} sx={{margin: 1, padding: 0}}>
+                                    <Box sx={{minHeight: '60vh'}}> {/* Adjust styling as needed */}
+                                        <Routes>
+                                            <Route path="/" element={<Home/>}/>
+                                            <Route path="/about" element={<About/>}/>
+                                            <Route path={"/sql-editor"} element={<SqlEditor/>}/>
+                                            <Route path={"/pie-charts"} element={
+                                                <PieChart
+                                                    selectedCase={selectedCase}
+                                                    selectedAlgorithm={selectedAlgorithm}/>}
+                                            />
+                                            <Route path={"/geomaps"}
+                                                   element={<LeafletMap center={[51.505, -0.09]} zoom={13}/>}/>
+                                            <Route path={"/timelines"} element={<CalHeatmapTimeline/>}/>
+                                            <Route path={"/bar-charts"} element={<SqlEditor/>}/>
+                                        </Routes>
+                                    </Box>
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                    </Router>
+                : <div></div>
+                }
             </Box>
-        </AppProvider>
-    </ThemeProvider>
+        </ThemeProvider>
+      </StrictMode>
   );
 };
 

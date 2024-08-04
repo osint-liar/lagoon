@@ -10,16 +10,9 @@ import {getApplicationKeyToken} from "./app_config";
  */
 export async function fetchOsintLiarData(url, configurations)
 {
-    let normalizedConfiguration = {
-        WebHost: configurations.WebHost,
-    }
-
-    if(configurations.SelectedCase?.Name)
-    {
-        normalizedConfiguration.CaseManagementUuid = configurations.SelectedCase.Uuid
-    }
-
-    const renderedUrl = Mustache.render(url, normalizedConfiguration)
+    const renderedUrl = Mustache.render(url, {
+        WebHost : "http://127.0.0.1:9906/",
+    })
     let response
     try {
         response = await fetch(renderedUrl,{

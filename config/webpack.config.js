@@ -591,34 +591,6 @@ module.exports = function (webpackEnv) {
             : undefined
         )
       ),
-      new ExtraWatchWebpackPlugin({
-        files: [ 'src/configs/data-visualizations/timelines/*.json' ],
-      }),
-      new WatchExternalFilesPlugin({ // causes the rebuild of dv-index
-        files: ['src/configs/data-visualizations/timelines/*.json'],
-      }),
-      new MergeJsonPlugin({
-        force: false,
-        minify: false,
-        groups: [
-          {
-            transform: (outputJson) => {
-              // this is the only way I could get the merged json file to build dynamically
-              const outputPath = path.resolve(appPublic, 'data', 'dv-index.json');
-              // Write the string to the specified file
-              const jsonStr = JSON.stringify(outputJson)
-              console.log(jsonStr + "\n\n\n")
-              fs.writeFileSync(outputPath, jsonStr, {encoding:'utf8',flag:'w'})
-              return outputJson
-            },
-            pattern: [
-                'src/configs/data-visualizations/timelines/*.json',
-
-            ], // glob. see https://github.com/mrmlnc/fast-glob
-            to: path.resolve(appPublic, 'data', 'dv-index.json')
-          }
-        ],
-      }),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358

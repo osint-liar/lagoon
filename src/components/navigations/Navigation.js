@@ -10,7 +10,6 @@ import {
 import {fetchOsintLiarData} from "../../utils/data";
 import ApplicationKeyTokenDialog from "../dialogs/ApplicationKeyTokenDialog";
 import {getDefaultConfiguration} from "../../utils/app_config";
-import AppContext from "../providers/AppContext";
 
 
 export default function Navigation(props) {
@@ -18,7 +17,6 @@ export default function Navigation(props) {
   const [caseManagements, setCaseManagements] = useState([])
   const [selectedCase, setSelectedCase] = useState({Uuid: 'INVALID', Name: null})
   const [isLoading, setIsLoading] = useState(true)
-  const {appConfiguration, updateAppConfiguration} = useContext(AppContext);
 
 
   useEffect(() =>
@@ -26,7 +24,8 @@ export default function Navigation(props) {
       async function fetchData() {
         setIsLoading(true)
         const data = await fetchOsintLiarData('{{WebHost}}v1/case-management', getDefaultConfiguration())
-
+        setCaseManagements(data.Records)
+        /*
         if('Error' in data){
           const record = selectedCase // uses the default from the state
           setCaseManagements([record])
@@ -35,14 +34,16 @@ export default function Navigation(props) {
           setCaseManagements(data.Records)
         }
 
-        const currentCase = caseManagements[0]
-        setSelectedCase(currentCase)
-        if(!props.selectedCase){
-          props.setSelectedCase = currentCase
-        }
+        //const currentCase = caseManagements[0]
+        //setSelectedCase(currentCase)
+        //if(!props.selectedCase){
+        //  props.setSelectedCase = currentCase
+        //}
         let appConfig = {...appConfiguration}
-        appConfig.SelectedCase = selectedCase
-        updateAppConfiguration(appConfig)
+        //appConfig.SelectedCase = selectedCase
+        //updateAppConfiguration(appConfig)
+
+         */
         setIsLoading(false)
       }
       fetchData();
@@ -53,9 +54,9 @@ export default function Navigation(props) {
     const found = caseManagements.find(c => c.Uuid === event.target.value)
     props.setSelectedCase(found)
     setSelectedCase(found)
-    let appConfig = {...appConfiguration}
-    appConfig.SelectedCase = {...found}
-    updateAppConfiguration(appConfig)
+    //let appConfig = {...appConfiguration}
+    //appConfig.SelectedCase = {...found}
+    //updateAppConfiguration(appConfig)
   }
 
   if(isLoading){

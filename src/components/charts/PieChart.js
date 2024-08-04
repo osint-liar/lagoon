@@ -5,11 +5,12 @@ import AppContext from "../providers/AppContext";
 import {fetchOsintLiarData} from "../../utils/data";
 import Mustache from 'mustache';
 import VegaChart from "./VegaChart";
+import pieCharts from "../../configs/data-visualizations/charts/pie-charts/pie.json";
 
 
-const PieChart = () => {
+const PieChart = (props) => {
+  const { selectedCase, selectedAlgorithm } = props;
   const [isLoading, setIsLoading] = useState(false)
-  const {appConfiguration, updateAppConfiguration} = useContext(AppContext);
   const [selected, setSelected] = useState({title:''})
 
   const location = useLocation();
@@ -18,7 +19,8 @@ const PieChart = () => {
   {
       async function fetchData() {
         setIsLoading(true)
-        if(appConfiguration.Algorithm && location.pathname === '/pie-charts' && appConfiguration.SelectedCase?.Name !== null){
+        if(location.pathname === '/pie-charts'){
+            /*
             let tmp = {...appConfiguration.Algorithm}
 
             let dataUrl = Mustache.render(tmp.dataUrl, {
@@ -31,14 +33,15 @@ const PieChart = () => {
             console.log(tmp.specification)
             tmp.specification.data.values = data.Records
             setSelected(tmp)
-        }
-        setIsLoading(false)
+
+             */
+        }setIsLoading(false)
       }
       fetchData();
-  }, [appConfiguration, location]);
+  }, [location, selectedCase, selectedAlgorithm]);
 
 
-  if(!appConfiguration.Algorithm){
+  if(!selectedAlgorithm){
       return (
           <Typography variant="h3">
             Select an algorithm
@@ -51,8 +54,8 @@ const PieChart = () => {
 
   return (
       <>
-          <span>You selected {selected.title ?? ''}</span>
-           <VegaChart spec={appConfiguration.Algorithm.specification} />
+          <span>You selected {selectedCase.title ?? ''}</span>
+           <VegaChart spec={selectedAlgorithm.specification} />
       </>
   )
 
