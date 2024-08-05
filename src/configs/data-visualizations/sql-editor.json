@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Basic Select Query",
+    "id": "basic-sql-query",
+    "active": true,
+    "route": "/sql-editor",
+    "description": "Query the database for a single record",
+    "sql": "SELECT * FROM ContentSchema LIMIT 10",
+    "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}"
+  },
+  {
+    "title": "Find Documents With Keyword",
+    "id": "find-document-with-keyword",
+    "active": true,
+    "route": "/sql-editor",
+    "description": "Find documents with keyword",
+    "sql": "SELECT ContentUrl FROM ContentSchema WHERE ContentUuid IN(SELECT Uuid FROM ContentIndex WHERE Document MATCH 'KEYWORD HERE')",
+    "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}"
+  }
+]

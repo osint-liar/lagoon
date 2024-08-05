@@ -15,7 +15,6 @@ import {getDefaultConfiguration} from "../../utils/app_config";
 export default function Navigation(props) {
 
   const [caseManagements, setCaseManagements] = useState([])
-  const [selectedCase, setSelectedCase] = useState({Uuid: 'INVALID', Name: null})
   const [isLoading, setIsLoading] = useState(true)
 
 
@@ -25,25 +24,6 @@ export default function Navigation(props) {
         setIsLoading(true)
         const data = await fetchOsintLiarData('{{WebHost}}v1/case-management', getDefaultConfiguration())
         setCaseManagements(data.Records)
-        /*
-        if('Error' in data){
-          const record = selectedCase // uses the default from the state
-          setCaseManagements([record])
-        }
-        else {
-          setCaseManagements(data.Records)
-        }
-
-        //const currentCase = caseManagements[0]
-        //setSelectedCase(currentCase)
-        //if(!props.selectedCase){
-        //  props.setSelectedCase = currentCase
-        //}
-        let appConfig = {...appConfiguration}
-        //appConfig.SelectedCase = selectedCase
-        //updateAppConfiguration(appConfig)
-
-         */
         setIsLoading(false)
       }
       fetchData();
@@ -53,10 +33,6 @@ export default function Navigation(props) {
   const handleChange = (event) => {
     const found = caseManagements.find(c => c.Uuid === event.target.value)
     props.setSelectedCase(found)
-    setSelectedCase(found)
-    //let appConfig = {...appConfiguration}
-    //appConfig.SelectedCase = {...found}
-    //updateAppConfiguration(appConfig)
   }
 
   if(isLoading){
@@ -75,7 +51,7 @@ export default function Navigation(props) {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={selectedCase?.Uuid ?? ''}
+              value={props.selectedCase?.Uuid ?? ''}
               label="Select Case"
               onChange={handleChange}
               sx={{ color: 'white', borderBottom: '1px solid white' }} // Styling the select to match the AppBar color scheme

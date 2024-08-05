@@ -1,11 +1,7 @@
 import Typography from "@mui/material/Typography";
 import {useContext, useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
-import AppContext from "../providers/AppContext";
-import {fetchOsintLiarData} from "../../utils/data";
-import Mustache from 'mustache';
 import VegaChart from "./VegaChart";
-import pieCharts from "../../configs/data-visualizations/charts/pie-charts/pie.json";
 
 
 const PieChart = (props) => {

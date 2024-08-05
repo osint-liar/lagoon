@@ -7,6 +7,11 @@ import MapIcon from "@mui/icons-material/Map";
 import StorageIcon from "@mui/icons-material/Storage";
 import React from "react";
 
+/**
+ * Left side menu
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function ListTools(){
     return (
         <Box>

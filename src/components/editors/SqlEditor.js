@@ -6,16 +6,16 @@ import {fetchOsintLiarData} from "../../utils/data";
 import {getDefaultConfiguration} from "../../utils/app_config";
 
 
-const SqlEditor = () => {
+const SqlEditor = (props) => {
+  const {selectedCase, selectedAlgorithm} = props;
+  // set default sql
   const [sql, setSql] = useState('SELECT * FROM ContentSchema LIMIT 1');
   const [records, setRecords] = useState([])
-
 
   function handleEditorDidMount(editor, monaco) {
     console.log('onMount: the editor instance:', editor);
     console.log('onMount: the monaco instance:', monaco);
   }
-
 
   function handleEditorWillMount(monaco) {
     //console.log('beforeMount: the monaco instance:', monaco);
@@ -33,12 +33,13 @@ const SqlEditor = () => {
   }
 
   useEffect(() => {
+    setSql(selectedAlgorithm?.sql ?? "SELECT * FROM ContentSchema LIMIT 1");
     // This is where you could add editor event listeners if needed
     // Cleanup function is not needed in this case but could be useful if you add event listeners
     return () => {
       // Here you would remove any event listeners added in useEffect
     };
-  }, []); // The empty array ensures this effect runs only once after the initial render
+  }, [selectedAlgorithm]); // The empty array ensures this effect runs only once after the initial render
 
 
   return (
@@ -65,6 +66,7 @@ const SqlEditor = () => {
         beforeMount={handleEditorWillMount}
         onValidate={handleEditorValidation}
         defaultValue={sql}
+        value={sql}
         defaultLanguage={'sql'}
       />
       <DataTable data={records} />

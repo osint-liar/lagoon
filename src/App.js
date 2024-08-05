@@ -66,16 +66,38 @@ const App = () => {
                                         <Routes>
                                             <Route path="/" element={<Home/>}/>
                                             <Route path="/about" element={<About/>}/>
-                                            <Route path={"/sql-editor"} element={<SqlEditor/>}/>
+                                            <Route path={"/sql-editor"} element={
+                                                <SqlEditor
+                                                    selectedCase={selectedCase}
+                                                    selectedAlgorithm={selectedAlgorithm}
+                                                />
+                                            }/>
                                             <Route path={"/pie-charts"} element={
                                                 <PieChart
                                                     selectedCase={selectedCase}
-                                                    selectedAlgorithm={selectedAlgorithm}/>}
-                                            />
-                                            <Route path={"/geomaps"}
-                                                   element={<LeafletMap center={[51.505, -0.09]} zoom={13}/>}/>
-                                            <Route path={"/timelines"} element={<CalHeatmapTimeline/>}/>
-                                            <Route path={"/bar-charts"} element={<SqlEditor/>}/>
+                                                    selectedAlgorithm={selectedAlgorithm}
+                                                />
+                                            }/>
+                                            <Route path={"/geomaps"} element={
+                                                <LeafletMap
+                                                    center={[51.505, -0.09]}
+                                                    zoom={13}
+                                                    selectedCase={selectedCase}
+                                                    selectedAlgorithm={selectedAlgorithm}
+                                                />
+                                            }/>
+                                            <Route path={"/timelines"} element={
+                                                <CalHeatmapTimeline
+                                                    selectedCase={selectedCase}
+                                                    selectedAlgorithm={selectedAlgorithm}
+                                                />
+                                            }/>
+                                            <Route path={"/bar-charts"} element={
+                                                <SqlEditor
+                                                    selectedCase={selectedCase}
+                                                    selectedAlgorithm={selectedAlgorithm}
+                                                />
+                                            }/>
                                         </Routes>
                                     </Box>
                                 </Paper>
