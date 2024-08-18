@@ -1,8 +1,12 @@
 import {Autocomplete, TextField} from "@mui/material";
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
-import pieCharts from "../../configs/data-visualizations/charts/pie-charts/pie.json";
-import sqlEditorData from "../../configs/data-visualizations/sql-editor.json"
+import pieCharts from "../../configs/data-visualizations/pie.json";
+import sqlEditorData from "../../configs/data-visualizations/sql-editor.json";
+import timelineData from "../../configs/data-visualizations/timelines.json";
+import geoLocationData from "../../configs/data-visualizations/geo-locations.json";
+import vegaTimelineData from "../../configs/data-visualizations/vega-timelines.json"
+import barChartData from "../../configs/data-visualizations/bar-charts.json"
 import {fetchOsintLiarData} from "../../utils/data";
 import Mustache from 'mustache';
 
@@ -13,10 +17,12 @@ import Mustache from 'mustache';
  * @constructor
  */
 export default function DataPanoramaPicker(props){
-    const {setSelectedAlgorithm, selectedCase} = props
+    const {setSelectedAlgorithm, selectedCase, setCenter} = props
     const location = useLocation();
-    const options = [...pieCharts, ...sqlEditorData]
+    // merge data sets together
+    const options = [...pieCharts, ...sqlEditorData, ...timelineData, ...geoLocationData, ...vegaTimelineData, ...barChartData]
     const [value, setValue] = useState(null)
+
     useEffect(() => {
         async function fetchData(){
             const pathName = location.pathname
@@ -39,7 +45,17 @@ export default function DataPanoramaPicker(props){
         // only fetch the data for non-sql editor components
         if(location.pathname !== '/sql-editor'){
             const data = await fetchOsintLiarData(dataUrl, {})
+            console.log(`Records returned`, data.Records);
             algorithm.specification.data.values = data.Records
+            if(data.Records.length > 0 && location.pathname === '/geo-locations'){
+                setCenter([data.Records[0].ContentLatitude, data.Records[0].ContentLongitude]);
+            }
+        }
+        else if(location.pathname === '/vega-timelines'){
+            const data = await fetchOsintLiarData(dataUrl, {})
+            console.log(`Records returned`, data.Records);
+            algorithm.specification.data.values.people = data.Records
+
         }
         setSelectedAlgorithm(algorithm);
     }

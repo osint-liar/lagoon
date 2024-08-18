@@ -23,7 +23,8 @@ import AppProvider from "./components/providers/AppProvider";
 import Mustache from "mustache";
 import TimelineRouter from "./components/timelines/TimelineRouter";
 import CalHeatmapTimeline from "./components/timelines/CalHeatmapTimeline";
-import LeafletMap from "./components/geomaps/LeafletMap";
+import LeafletMap from "./components/geo-locations/LeafletMap";
+import VegaChart from "./components/charts/VegaChart";
 initFontAwesome();
 
 
@@ -35,6 +36,7 @@ const App = () => {
   const [selectedCase, setSelectedCase] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(null)
+  const [center, setCenter] = useState([36.1716, 115.1391])
 
   return (
       <StrictMode>
@@ -59,6 +61,7 @@ const App = () => {
                                     <DataPanoramaPicker
                                         setSelectedAlgorithm={setSelectedAlgorithm}
                                         selectedCase={selectedCase}
+                                        setCenter={setCenter}
                                     />
                                 </Paper>
                                 <Paper elevation={3} sx={{margin: 1, padding: 0}}>
@@ -73,30 +76,27 @@ const App = () => {
                                                 />
                                             }/>
                                             <Route path={"/pie-charts"} element={
-                                                <PieChart
-                                                    selectedCase={selectedCase}
-                                                    selectedAlgorithm={selectedAlgorithm}
-                                                />
+                                                <VegaChart spec={selectedAlgorithm?.specification ?? {}} />
                                             }/>
-                                            <Route path={"/geomaps"} element={
+                                            <Route path={"/geo-locations"} element={
                                                 <LeafletMap
-                                                    center={[51.505, -0.09]}
+                                                    center={center}
                                                     zoom={13}
                                                     selectedCase={selectedCase}
                                                     selectedAlgorithm={selectedAlgorithm}
                                                 />
                                             }/>
-                                            <Route path={"/timelines"} element={
+                                            <Route path={"/calendar-timelines"} element={
                                                 <CalHeatmapTimeline
                                                     selectedCase={selectedCase}
                                                     selectedAlgorithm={selectedAlgorithm}
                                                 />
                                             }/>
+                                            <Route path={"/vega-timelines"} element={
+                                                <VegaChart spec={selectedAlgorithm?.specification ?? {}} />
+                                            }/>
                                             <Route path={"/bar-charts"} element={
-                                                <SqlEditor
-                                                    selectedCase={selectedCase}
-                                                    selectedAlgorithm={selectedAlgorithm}
-                                                />
+                                                <VegaChart spec={selectedAlgorithm?.specification ?? {}} />
                                             }/>
                                         </Routes>
                                     </Box>

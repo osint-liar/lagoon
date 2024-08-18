@@ -67,6 +67,55 @@
     }
   },
   {
+    "title": "Show All SQLite File Sizes",
+    "id": "show_all_sqlite_file_sizes",
+    "active": true,
+    "route": "/pie-charts",
+    "sql": "SELECT ContentSize, ContentTitle FROM ContentSchema WHERE INSTR(ContentMimeType, 'sql') > 0 AND CaseManagementUuid = :CaseManagementUuid ORDER BY ContentSize ASC",
+    "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}&FieldName=ContentTypeName",
+    "description": "A pie chart showing all the different sizes, in megabytes of the sqlite databases.",
+    "specification": {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "width": 900,
+      "height": 600,
+      "description": "A pie chart showing all the different sizes, in megabytes of the sqlite databases.",
+      "data": {
+        "values": []
+      },
+      "transform": [
+        {
+          "calculate": "datum.ContentSize / 1e6",
+          "as": "SizeInMegabytes"
+        }
+      ],
+      "layer": [
+        {
+          "mark": "arc",
+          "encoding": {
+            "theta": {"field": "SizeInMegabytes", "type": "quantitative"},
+            "color": {
+              "field": "ContentTitle",
+              "type": "nominal",
+              "legend": {"title": "SQLite database names"}
+            },
+            "tooltip": [
+              {"field": "ContentTitle", "type": "nominal", "title": "SQLite Database Name"},
+              {"field": "SizeInMegabytes", "type": "quantitative", "title": "Size (MB)", "format": ".2f"}
+            ]
+          }
+        },
+        {
+          "mark": {"type": "text", "radius": 120},
+          "encoding": {
+            "text": {"field": "SizeInMegabytes", "type": "quantitative", "format": ".2f"},
+            "theta": {"field": "SizeInMegabytes", "type": "quantitative"},
+            "color": {"value": "black"}
+          }
+        }
+      ]
+    }
+  },
+  {
     "title": "Static Example",
     "id": "static_example",
     "active": true,

@@ -1,0 +1,91 @@
+[
+  {
+    "title": "Selector Count By Case",
+    "id": "selector-count-by-case",
+    "active": true,
+    "route": "/bar-charts",
+    "description": "Show All Selectors Across All Cases",
+    "sql": "SELECT s.Name as `SelectorName`, c.CaseManagementName as `CaseName`, COUNT(*) as Count FROM ContentSchema c, ContentSelector cs, Selector s WHERE c.ContentId = cs.ContentId AND s.Id = cs.SelectorId GROUP BY `SelectorName`, `CaseName`",
+    "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}",
+    "specification": {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "data": {
+        "values": []
+      },
+      "title":"Show All Selectors Across All Cases",
+      "autosize": {
+        "type": "fit",
+        "contains": "padding"
+      },
+      "width": 900,
+      "height": 600,
+      "resolve": {
+        "scale": {
+          "color": "independent"
+        }
+      },
+      "layer": [
+        {
+          "mark": "bar",
+          "encoding": {
+            "x": {
+              "aggregate": "sum",
+              "field": "Count",
+              "type": "quantitative",
+              "stack": "zero"
+            },
+            "y": {
+              "field": "CaseName",
+              "type": "nominal",
+              "axis": {
+                "title": "Case Name"
+              }
+            },
+            "color": {
+              "field": "SelectorName",
+              "type": "nominal",
+              "axis": {
+                "title": "Selector Name"
+              }
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "dx": -15,
+            "dy": 3
+          },
+          "encoding": {
+            "x": {
+              "aggregate": "sum",
+              "field": "CaseName",
+              "type": "quantitative",
+              "stack": "zero"
+            },
+            "y": {
+              "field": "CaseName",
+              "type": "nominal"
+            },
+            "color": {
+              "field": "SelectorName",
+              "type": "nominal",
+              "scale": {
+                "range": [
+                  "white"
+                ]
+              },
+              "legend": null
+            },
+            "text": {
+              "aggregate": "sum",
+              "field": "CaseName",
+              "type": "quantitative",
+              "format": ".1f"
+            }
+          }
+        }
+      ]
+    }
+  }
+]

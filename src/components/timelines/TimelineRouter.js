@@ -7,14 +7,7 @@ export default function TimelineRouter(props) {
   return (
     <div>
       <h1>Timeline Dashboard</h1>
-
-      {/* Nested Routes */}
-      <Routes>
-        <Route path="cal-heat map-timeline" element={<CalHeatmapTimeline  />} />
-        <Route path="cal-heat-map-hour" element={<CalHeatmapTimeline />} />
-        <Route path="cal-heat-map-minute" element={<CalHeatmapTimeline />} />
-      </Routes>
-      <Outlet />
+        <CalHeatmapTimeline selectedCase={selectedCase} selectedAlgorithm={selectedAlgorithm}/>
     </div>
   );
 }

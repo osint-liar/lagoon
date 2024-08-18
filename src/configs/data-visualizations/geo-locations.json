@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Geo Location Per Case",
+    "id": "geo-locate-basic",
+    "active": true,
+    "route": "/geo-locations",
+    "description": "Extract out the coordinates within the given case.",
+    "sql": "SELECT ContentLatitude, ContentLongitude, ContentStartedOn, ContentEndedOn, ContentUrl FROM ContentSchema WHERE ContentLatitude IS NOT NULL AND ContentLongitude IS NOT NULL AND CaseManagementUuid = :CaseManagementUuid;",
+    "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}",
+    "specification": { "data": { "values" : []}}
+  }
+]

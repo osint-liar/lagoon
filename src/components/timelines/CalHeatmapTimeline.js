@@ -8,43 +8,28 @@ import Mustache from "mustache";
 import {fetchOsintLiarData} from "../../utils/data";
 import {useLocation} from "react-router-dom";
 
-
-const CalHeatmapTimeline = () => {
-
-  const {appConfiguration} = useContext(AppContext);
+/**
+ * Data visualization using the CalMap tool
+ * @returns {(function(): void)|*}
+ * @constructor
+ */
+const CalHeatmapTimeline = (props) => {
+  const {selectedCase, selectedAlgorithm} = props;
   const location = useLocation();
   const cal = new CalHeatmap();
 
   useEffect(() => {
-
-    async function fetchData()
-    {
-      if(appConfiguration.Algorithm && location.pathname.startsWith('/timelines') && appConfiguration.SelectedCase?.Name !== null){
-          let tmp = {...appConfiguration.Algorithm}
-
-          let dataUrl = Mustache.render(tmp.dataUrl, {
-              WebHost: appConfiguration.WebHost,
-              CaseManagementUuid: appConfiguration.SelectedCase.Uuid,
-              SqlQuery: encodeURIComponent(appConfiguration.Algorithm.sql)
-          })
-          tmp.dataUrl = dataUrl
-          const data = await fetchOsintLiarData(tmp.dataUrl, appConfiguration)
-          console.log(data.Records)
-
-          // populate the data
-          if(data.Records.length > 0){
-              tmp.specification.data.source = data.Records
-              tmp.specification.date.start = new Date(data.Records[0].date)
-              tmp.specification.date.min = new Date(data.Records[0].date)
-              tmp.specification.date.max = new Date(data.Records[data.Records.length - 1].date)
-          }
-
+      // populate the data
+      const records = selectedAlgorithm?.specification.data.values ?? [];
+      if(records.length > 0 && 'date' in records[0]){
+          cal.destroy();
+          selectedAlgorithm.specification.data.source = records
+          selectedAlgorithm.specification.date.start = new Date(records[0].date)
+          selectedAlgorithm.specification.date.min = new Date(records[0].date)
+          selectedAlgorithm.specification.date.max = new Date(records[records.length - 1].date)
           // Initialization of CalHeatMap
-          cal.paint(tmp.specification);
-        }
-
-    }
-    fetchData()
+          cal.paint(selectedAlgorithm.specification);
+      }
 
     // Return a cleanup function that will be called on component unmount
     return () => {
@@ -55,10 +40,11 @@ const CalHeatmapTimeline = () => {
       // If there's no specific cleanup method, you might need to manually clean up
       // This could include removing the CalHeatMap DOM element, event listeners, etc.
       if(cal){
-          cal.destroy()
+          cal.destroy();
+
       }
     };
-  }, [appConfiguration, location]);
+  }, [selectedAlgorithm]);
 
   return (
   <div>

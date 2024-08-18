@@ -22,13 +22,13 @@ export default function ListTools(){
                 </ListItemIcon>
                 <ListItemText primary={'Pie Charts'} />
               </ListItem>
-              <ListItem key={'Bar Graphs'} component={Link} to={'/bar-graphs'}>
+              <ListItem key={'Bar Graphs'} component={Link} to={'/bar-charts'}>
                 <ListItemIcon>
                   <BarChartIcon />
                 </ListItemIcon>
                 <ListItemText primary={'Bar Graphs'} />
               </ListItem>
-              <ListItem key={'Maps'} component={Link} to={'/geomaps'}>
+              <ListItem key={'Maps'} component={Link} to={'/geo-locations'}>
                 <ListItemIcon>
                   <MapIcon />
                 </ListItemIcon>
@@ -40,7 +40,13 @@ export default function ListTools(){
                 </ListItemIcon>
                 <ListItemText primary={'Sql Editor'} />
               </ListItem>
-              <ListItem key={'Timelines'} component={Link} to={'/timelines'}>
+              <ListItem key={'Calendar Timelines'} component={Link} to={'/calendar-timelines'}>
+                <ListItemIcon>
+                  <MapIcon />
+                </ListItemIcon>
+                <ListItemText primary={'Calendar Timelines'} />
+              </ListItem>
+              <ListItem key={'Timelines'} component={Link} to={'/vega-timelines'}>
                 <ListItemIcon>
                   <MapIcon />
                 </ListItemIcon>

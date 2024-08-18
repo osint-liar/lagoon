@@ -16,5 +16,14 @@
     "description": "Find documents with keyword",
     "sql": "SELECT ContentUrl FROM ContentSchema WHERE ContentUuid IN(SELECT Uuid FROM ContentIndex WHERE Document MATCH 'KEYWORD HERE')",
     "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}"
+  },
+  {
+    "title": "Find Documents Within Time Frame",
+    "id": "find-document-within-time-frame",
+    "active": true,
+    "route": "/sql-editor",
+    "description": "Find documents between a given time range",
+    "sql": "SELECT ContentUrl FROM ContentSchema WHERE ContentStartedOn >= '' AND ContentEndedOn <= ''",
+    "dataUrl": "{{WebHost}}v1/analysis-tool/raw-sql?SqlQuery={{SqlQuery}}&CaseManagementUuid={{CaseManagementUuid}}"
   }
 ]

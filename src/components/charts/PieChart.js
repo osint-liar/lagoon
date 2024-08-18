@@ -50,7 +50,6 @@ const PieChart = (props) => {
 
   return (
       <>
-          <span>You selected {selectedCase.title ?? ''}</span>
            <VegaChart spec={selectedAlgorithm.specification} />
       </>
   )
